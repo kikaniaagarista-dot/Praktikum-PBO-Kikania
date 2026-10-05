@@ -1,4 +1,4 @@
-# Laporan Tugas Praktikum Pemrograman Berorientasi Objek (PBO)
+# Laporan Posttest PBO Lanjutan: GLAMORA
 
 **Nama**: Kikania Agarista  
 **NIM**: 2509106086  
@@ -6,76 +6,50 @@
 
 ---
 
-## 1. Deskripsi Program
-Program ini adalah simulasi sistem manajemen untuk **GLAMORA Beauty Studio** yang digunakan untuk mengelola data pelanggan, paket make up, dan transaksi pemesanan. Program ini dibangun menggunakan paradigma *Object-Oriented Programming* (OOP) di Python, dan secara ketat mengimplementasikan materi dari Modul 1 (Class & Object), Modul 2 (Atribut & Method), dan Modul 3 (Encapsulation & Property).
+## 1. Implementasi Relasi UML
+Program ini menerapkan tiga hubungan antar kelas sesuai materi Modul 4:
+
+### A. Agregasi (Aggregation) - "Memiliki"
+*   **Kelas Terlibat**: `Salon` dan `MUA` (Make Up Artist).
+*   **Penjelasan**: `Salon` memiliki daftar `MUA` yang disimpan dalam atribut `_daftar_mua`. Objek `MUA` dibuat di luar kelas `Salon` dan hanya direferensikan ke dalamnya. Jika objek `Salon` dihapus, objek `MUA` tetap ada (masih bisa bekerja di tempat lain).
+
+### B. Asosiasi (Association) - "Menggunakan"
+*   **Kelas Terlibat**: `Pemesanan`, `Pelanggan` (String/Objek), dan `MUA`.
+*   **Penjelasan**: Kelas `Pemesanan` menggunakan objek `MUA` dan data `Pelanggan` yang diterima melalui parameter constructor (`__init__`). Tidak ada kepemilikan permanen; `MUA` hanya "dipinjam" untuk menangani satu pesanan.
+
+### C. Komposisi (Composition) - "Terdiri Dari"
+*   **Kelas Terlibat**: `Pemesanan` dan `CatatanTransaksi`.
+*   **Penjelasan**: `Pemesanan` terdiri dari kumpulan `CatatanTransaksi`. Objek `CatatanTransaksi` dibuat secara eksklusif di dalam method `_tambah_catatan()` milik `Pemesanan`. Jika objek `Pemesanan` dihapus, riwayat `CatatanTransaksi` ikut musnah.
 
 ---
 
-## 2. Struktur Class
-Program ini terdiri dari 3 class utama yang saling berinteraksi:
+## 2. Implementasi Inheritance (Pewarisan)
+Program ini menerapkan pewarisan sesuai materi Modul 5:
 
-### A. Class `Pelanggan`
-Mengelola data identitas pelanggan salon.
-- **Atribut Kelas**: 
-  - `nama_salon` (String): Nama default instansi.
-  - `total_pelanggan` (Integer): Menghitung jumlah objek yang dibuat.
-- **Atribut Instance**: 
-  - Public: `nama`, `email`
-  - Private: `__nomor_telepon` (Dilindungi menggunakan name mangling `__`)
-- **Method**:
-  - *Instance*: `tampilkan_info()`
-  - *Class*: `ubah_nama_salon(cls, nama_baru)`
-  - *Static*: `validasi_format_email(email)`
-  - *Property*: Getter & Setter untuk `nomor_telepon` (Validasi: harus angka & minimal 10 digit).
+### A. Struktur Superclass & Subclass
+*   **Superclass**: `PaketMakeUp` (Berisi atribut dan method dasar semua paket).
+*   **Subclass**: `PaketWisuda` dan `PaketPengantin` (Mewarisi `PaketMakeUp`).
 
-### B. Class `PaketMakeUp`
-Mengelola data layanan paket make up yang tersedia.
-- **Atribut Kelas**: 
-  - `mata_uang` (String): Mata uang default ("IDR").
-  - `total_paket` (Integer): Menghitung jumlah paket yang terdaftar.
-- **Atribut Instance**: 
-  - Public: `kode_paket`, `nama_paket`
-  - Private: `__harga` (Data sensitif yang tidak boleh diubah sembarangan).
-- **Method**:
-  - *Instance*: `detail_paket()`
-  - *Class*: `buat_dari_dict(cls, data)` (Factory method untuk membuat objek dari dictionary).
-  - *Static*: `cek_apakah_diskon_valid(persentase)`
-  - *Property*: Getter & Setter untuk `harga` (Validasi: harga harus > 0).
+### B. Penggunaan `super()`
+Kedua subclass memanggil konstruktor induk menggunakan `super().__init__(kode, nama, harga)` untuk menginisialisasi atribut dasar, lalu menambahkan atribut spesifiknya sendiri.
 
-### C. Class `Pemesanan`
-Mengelola transaksi yang menghubungkan objek `Pelanggan` dan `PaketMakeUp`.
-- **Atribut Kelas**: 
-  - `total_pemesanan` (Integer): Counter total transaksi.
-  - `daftar_status_valid` (List): Batasan status yang diperbolehkan.
-- **Atribut Instance**: 
-  - Public: `pelanggan` (Objek), `paket` (Objek), `tanggal_acara` (String)
-  - Private: `__status` (Default: "Belum Lunas").
-- **Method**:
-  - *Instance*: `cetak_struk()`
-  - *Class*: `reset_total_pemesanan(cls)`
-  - *Static*: `hitung_estimasi_biaya_transport(jarak_km)`
-  - *Property*: Getter & Setter untuk `status` (Validasi: harus ada di `daftar_status_valid`).
+### C. Atribut Tambahan (Spesifik)
+*   `PaketWisuda` memiliki atribut unik: `include_foto` (Boolean).
+*   `PaketPengantin` memiliki atribut unik: `jumlah_trial` (Integer).
+
+### D. Method Overriding
+Method `hitung_total()` dari superclass di-override pada kedua subclass:
+*   Di `PaketWisuda`: Menambahkan biaya jika `include_foto` bernilai True.
+*   Di `PaketPengantin`: Menambahkan biaya berdasarkan `jumlah_trial * 200000`.
+
+### E. Tingkat Akses (Protected & Private)
+*   **Protected (`_harga`)**: Digunakan di superclass `PaketMakeUp` agar bisa diakses dan dimanipulasi langsung oleh subclass saat melakukan overriding method `hitung_total()`.
+*   **Private (`__kode_internal`)**: Digunakan di superclass untuk data rahasia. Subclass tidak bisa mengaksesnya secara langsung (terkena *name mangling*), membuktikan enkapsulasi yang ketat pada data eksklusif induk.
 
 ---
 
-## 3. Konsep OOP yang Diimplementasikan (Sesuai Modul)
-1. **Modul 1 (Class & Object)**: Pembuatan blueprint (`class`) dan proses instansiasi objek menggunakan constructor `__init__` dengan parameter `self`.
-2. **Modul 2 (Atribut & Method)**: 
-   - Pemisahan yang jelas antara **Atribut Kelas** (dimiliki bersama) dan **Atribut Instance** (unik per objek).
-   - Implementasi lengkap 3 jenis method: *Instance Method* (pakai `self`), *Class Method* (pakai `@classmethod` dan `cls`), dan *Static Method* (pakai `@staticmethod` tanpa `self`/`cls`).
-3. **Modul 3 (Encapsulation & Property)**:
-   - **Enkapsulasi**: Menggunakan prefix double underscore (`__`) untuk menyembunyikan data sensitif (`__nomor_telepon`, `__harga`, `__status`) agar tidak bisa diakses langsung dari luar class.
-   - **Property Idiomatis Python**: Menggunakan decorator `@property` sebagai *getter* dan `@<nama>.setter` sebagai *setter* (bukan `get_nama`/`set_nama`).
-   - **Validasi Data**: Setiap *setter* dilengkapi logika validasi. Jika data tidak valid, perubahan ditolak menggunakan `raise ValueError`.
-
----
-
-## 4. Panduan Pengujian (Testing)
-
-### Cara Menjalankan Program
-1. Pastikan Python 3.x sudah terinstal di komputer.
-2. Download atau clone repository ini.
-3. Buka terminal/CMD, arahkan ke folder proyek.
-4. Jalankan perintah:
+## 3. Cara Menjalankan Program
+1. Pastikan Python 3.x sudah terinstal.
+2. Jalankan file melalui terminal:
    ```bash
    python main.py
