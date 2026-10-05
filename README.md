@@ -7,7 +7,7 @@
 ---
 
 ## 1. Implementasi Relasi UML
-Program ini menerapkan tiga hubungan antar kelas sesuai materi Modul 4:
+Program ini menerapkan tiga hubungan antar kelas :
 
 ### A. Agregasi (Aggregation) - "Memiliki"
 *   **Kelas Terlibat**: `Salon` dan `MUA` (Make Up Artist).
@@ -24,7 +24,7 @@ Program ini menerapkan tiga hubungan antar kelas sesuai materi Modul 4:
 ---
 
 ## 2. Implementasi Inheritance (Pewarisan)
-Program ini menerapkan pewarisan sesuai materi Modul 5:
+Program ini menerapkan pewarisan sesuai materi:
 
 ### A. Struktur Superclass & Subclass
 *   **Superclass**: `PaketMakeUp` (Berisi atribut dan method dasar semua paket).
