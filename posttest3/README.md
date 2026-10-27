@@ -13,7 +13,7 @@ Program ini adalah sistem manajemen untuk **GLAMORA Beauty Studio** yang mengelo
 
 ## 2. Class Diagram & Relasi UML
 
-![Class Diagram UML](class_diagram.png)
+![Class Diagram UML](diagram-class-pt3.png)
 *(Diagram di atas dibuat menggunakan tools UML dan merepresentasikan relasi antar kelas dalam sistem GLAMORA)*
 
 ### Penjelasan Relasi UML:
@@ -48,7 +48,7 @@ Program ini menerapkan 2 prinsip SOLID secara wajar:
 
 ## 6. Output Program
 
-![Output Program](output_screenshot.png)
+![Output Program](Output-Screenshot-pt3.png)
 *(Screenshot di atas menunjukkan hasil eksekusi program, termasuk bukti `TypeError` saat mencoba menginstansiasi abstract class `PaketMakeUp`, serta hasil dari polimorfisme dan duck typing)*
 
 ---
