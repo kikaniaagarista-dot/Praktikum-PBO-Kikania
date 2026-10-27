@@ -48,7 +48,7 @@ Program ini menerapkan 2 prinsip SOLID secara wajar:
 
 ## 6. Output Program
 
-![Output Program](Output-Screenshot-pt3.png)
+![Output Program](Output-Screenshoot-pt3.png)
 *(Screenshot di atas menunjukkan hasil eksekusi program, termasuk bukti `TypeError` saat mencoba menginstansiasi abstract class `PaketMakeUp`, serta hasil dari polimorfisme dan duck typing)*
 
 ---
